@@ -1,0 +1,106 @@
+*{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+body{
+  background-color: #FAFAFA;
+}
+
+header, main, footer {
+  padding-left: 240px;
+}
+
+@media only screen and (max-width : 992px) {
+  header, main, footer {
+    padding-left: 0;
+  }
+}
+
+.message{
+      position: fixed;
+    bottom: -15px;
+    width: 100%;
+    z-index: 100;
+    color: #FFF;
+    background-color: #64b5f6;
+    padding-left:10px;
+}
+
+.loader-back{
+  position: fixed;
+	left: 10%;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 998;
+	background: url(../images/loader.gif) center no-repeat #fff;
+}
+
+.background{
+  background-color: #2D323F;
+}
+
+.cancel-btn{
+  color: rgba(0,0,0,0.54);
+}
+
+.circle-btn{
+  border-radius: 10px;
+}
+
+#form{
+  margin-top: 20%;
+  width: 60%;
+  background-color: #FFFFFF;
+}
+
+#form-inputs{
+  margin-top: -20px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+#login-btn{
+  margin-right: 25px;
+}
+
+#login-form{
+}
+
+#login-logo{
+  height:60px;
+  margin-top: 30px;
+  margin-left: 15px;
+}
+
+#login-text{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: -20px;
+  margin-left: 15px;
+}
+
+#login-slogan{
+  margin-top: -44px;
+  margin-left: 15px;
+  font-size: 11px;
+}
+
+#adeudo-form, #module-form{
+  background-color: #FFF;
+  border-radius: 6px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: -30px;
+}
+
+#adeudo-form h5, #module-form h5{
+  margin-bottom: 12px;
+    font-size: 20px;
+}
+
+#module-title h5{
+  font-size: 16px;
+}
+
+

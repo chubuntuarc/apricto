@@ -1,0 +1,160 @@
+<script src="js/estado.js"></script>
+
+<div class="loader-back"></div>
+
+<div class="row blue white-text" id="module-title">
+  <div class="col s12 center-align">
+    <h5>Estado de cuenta</h5>
+  </div>
+</div>
+
+<div class="row">
+<div class="col s12">
+  <div class="row" id="area-buscador" style="margin-top: -15px;">
+    <div class="input-field col s12">
+      <input type="hidden" id="id_cuenta">
+      <i class="material-icons prefix">search</i>
+      <input type="text" id="autocomplete-input" class="autocomplete" >
+      <label for="autocomplete-input">Buscar..</label>
+    </div>
+  </div>
+</div>
+</div>
+
+<!--Formulario de captura-->
+<div class="row z-depth-2" id="adeudo-form">
+  <div class="col s12">
+    <h5 class="blue-text">Registrar adeudo</h5>
+    <!--Formulario-->
+    <div class="row">
+      <div class="input-field col m6 s12">
+        <input type="text" class="datepicker" id="fecha" placeholder="Selecciona fecha del adeudo">
+        <label for="fecha">Fecha de adeudo</label>
+     </div>
+     <div class="input-field col m6 s12">
+      <input type="text" class="datepicker" id="fecha_vencimiento" placeholder="Selecciona fecha de vigencia">
+      <label for="fecha_vencimiento">Fecha de vencimiento</label>
+     </div>
+    </div>
+    <div class="row">
+        <div class="input-field col m6 s12">
+          <input placeholder="Monto del adeudo" id="monto" type="text" class="validate">
+          <label for="monto">Monto</label>
+        </div>
+        <div class="input-field col m6 s12">
+          <input placeholder="Motivo del adeudo" id="concepto" type="text" class="validate">
+          <label for="concepto">Concepto</label>
+        </div>
+    </div>
+    <div class="row">
+      <div class="input-field col m6 s12">
+        <select id="clasificacion">
+          <option value="Ingreso ordinario">Ingreso ordinario</option>
+          <option value="Ingreso extra-ordinario">Ingreso extra-ordinario</option>
+        </select>
+        <label>Clasificación presupuestal</label>
+      </div>
+      <div class="input-field col m6 s12">
+        <select id="destino">
+          <option value="Fondo ordinario">Fondo ordinario</option>
+          <option value="Fondo extra-ordinario">Fondo extra-ordinario</option>
+          <option value="Fondo de reserva">Fondo de reserva</option>
+        </select>
+        <label>Pago destinado a:</label>
+      </div>
+    </div>
+    <div class="row right-align">
+      <div class="col s12"> 
+        <div class="col s10">
+          <a href="#!" class="cancel-btn" onclick="$('#adeudo-form').hide();">Cancelar</a>
+        </div>
+        <div class="col s2">
+          <button id="enviardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="guardarAdeudo()"  style="border-radius: 20px;height: 24px;font-size: 14px;line-height: 24px;">Guardar</button>
+          <button id="editardata" class="btn waves-effect waves-light light-blue white-text" type="submit" name="action" onclick="editarAdeudo()"  style="border-radius: 20px;height: 24px;font-size: 14px;line-height: 24px;">Editar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" style="overflow-x:auto;margin-top: -20px;">
+  <div class="col s12">
+   <!-- //Tabla con los condominios-->
+    <table class="striped" id="tabla-cuenta">
+      <thead>
+        <th></th>
+        <th>Fecha</th>
+        <th>Vigencia</th>
+        <th>Tipo</th>
+        <th>Concepto</th>
+        <th>Cargo</th>
+        <th>Abono</th>
+        <th>Status</th>
+        <th></th>
+      </thead>
+      <tbody id="cuenta-rows">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal registrar abono -->
+  <div id="modal_abono" class="modal" style="border-radius:10px;">
+    <div class="modal-content">
+      <h4 class="green-text" style="font-size:22px;">Registrar abono</h4>
+      <div class="row">
+        <div class="col m6 s12">
+          <input type="hidden" id="key_abono">
+          <input type="hidden" id="adeudo_hide">
+          <input type="hidden" id="monto_abono_hide">
+          <p>Fecha del adeudo: <span class="green-text" id="fecha_abono"></span></p>
+          <p>Fecha de vigencia: <span class="green-text" id="fecha_vencimiento_abono"></span></p>
+          <p>Monto del adeudo: <span class="green-text" id="monto_abono"></span></p>
+          <p>Por concepto de: <span class="green-text" id="concepto_abono"></span></p>
+          <p>Destino: <span class="green-text" id="destino_abono"></span></p>
+        </div>
+        <div class="col m6 s12">
+          <p>Monto adeudado</p>
+          <p class="green-text" id="monto_abono2" style="margin-top: -10px;font-size: 25px;"></p>
+          <input placeholder="Cantidad a abonar" id="abono" type="text" class="validate">
+          <label for="abono">Abono</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="waves-effect waves-light btn green z-depth-2" style="border-radius: 20px;height: 24px;font-size: 14px;line-height: 24px;margin-right: 10px;" onclick="registrarAbono()">Registrar</a>
+    </div>
+  </div>
+
+<div class="fixed-action-btn">
+  <a class="btn-floating btn-large light-blue">
+    <i class="large material-icons">mode_edit</i>
+  </a>
+  <ul>
+    <!--<li><a class="btn-floating blue tooltipped" data-position="left" data-tooltip="Imprimir aviso"><i class="material-icons">local_printshop</i></a></li>
+    <li><a class="btn-floating yellow darken-1 tooltipped" data-position="left" data-tooltip="Enviar aviso"><i class="material-icons">contact_mail</i></a></li>-->
+    <li><a class="btn-floating green darken-1 tooltipped" data-position="left" data-tooltip="Imprimir"><i class="material-icons" onclick="imprimirCuenta()">local_printshop</i></a></li>
+    <!--<li><a class="btn-floating blue tooltipped" data-position="left" data-tooltip="Capturar descuento"><i class="material-icons">favorite_border</i></a></li>-->
+    <!--<li><a class="btn-floating red tooltipped" data-position="left" data-tooltip="Capturar recargo"><i class="material-icons">announcement</i></a></li>-->
+    <li><a class="btn-floating yellow darken-1 tooltipped" data-position="left" data-tooltip="Capturar adeudo" onclick="$('#adeudo-form').show();$('#editardata').hide();$('#enviardata').show();"><i class="material-icons">assignment_late</i></a></li>
+  </ul>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('select').formSelect()
+  $('.fixed-action-btn').floatingActionButton()
+  $('.tooltipped').tooltip()
+  $('.datepicker').datepicker({ 
+    months: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+    monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+    weekdays: [ 'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado' ],
+    weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+    weekdaysAbbrev: [ 'D', 'L', 'M', 'X', 'J', 'V', 'S' ],
+    cancel: 'Cancelar',
+    format: "dd/mm/yyyy" 
+  })
+  M.updateTextFields()
+  $('.modal').modal()
+}) 
+</script>
