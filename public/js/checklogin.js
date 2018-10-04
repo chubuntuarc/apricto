@@ -13,14 +13,14 @@ firebase.auth().onAuthStateChanged(function(user) {
   } else {
     // User is signed out.
     // ...
-    window.location.href = 'login.html'
+    window.location.href = 'login.html';
   }
 })
 
 function salir(){
   firebase.auth().signOut().then(function() {
   // Sign-out successful.
-    window.location.href = 'login.html'
+    window.location.href = 'login.html';
   }).catch(function(error) {
     // An error happened.
   });
