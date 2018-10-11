@@ -1,6 +1,8 @@
 $(document).ready(function(){
   $('.btn-floating').hide()
   $('.estado_data').hide()
+  $('#clasificacion-otro').hide()
+  $('#destino-otro').hide()
   $('#adeudo-form').hide()
   $('#tabla-cuenta').hide()
   $('#menu1').css('color','#4FC3F7');
@@ -13,6 +15,18 @@ function inicializar(){
   owners = firebase.database().ref().child('owners')
   earnings = firebase.database().ref().child('earnings')
 }
+
+$("#clasificacion").on('change', function() {
+  if($(this).val() == 'otro'){
+    $('#clasificacion-otro').show();
+  }
+});
+
+$("#destino").on('change', function() {
+  if($(this).val() == 'otro'){
+    $('#destino-otro').show();
+  }
+});
 
 function listaBusqueda(){
   owners.on('value',function(snap){
@@ -101,8 +115,16 @@ function guardarAdeudo(){
   var fecha_vencimiento = $('#fecha_vencimiento').val()
   var monto = $('#monto').val()
   var concepto = $('#concepto').val()
-  var clasificacion = $('#clasificacion').val()
-  var destino = $('#destino').val()
+  if($('#clasificacion').val() == 'otro'){
+    var clasificacion = $('#clasificacion-otro').val()
+  }else{
+    var clasificacion = $('#clasificacion').val()
+  }
+  if($('#destino').val() == 'otro'){
+    var destino = $('#destino-otro').val()
+  }else{
+    var destino = $('#destino').val()
+  }
   estado_cuenta.push({
     fecha: fecha,
     fecha_vencimiento: fecha_vencimiento,
