@@ -1,5 +1,6 @@
 $(document).ready(function(){
   $('.btn-floating').hide()
+  $('.estado_data').hide()
   $('#adeudo-form').hide()
   $('#tabla-cuenta').hide()
   $('#menu1').css('color','#4FC3F7');
@@ -46,6 +47,15 @@ function listaBusqueda(){
 //Cargar movimientos del estado de cuenta actual
 function cargarDatosCuenta(){
   var cuenta = $('#id_cuenta').val();
+  $('.estado_data').show()
+  cliente = firebase.database().ref().child('owners').child(cuenta);
+  cliente.once('value',function(snap){
+    var datos = snap.val();
+    $('#desarrollo_name').text(datos.desarrollo);
+    $('#calle_name').text(datos.calle);
+    $('#mz_lt').text(datos.mz + ' / ' + datos.lt + ' / ' + datos.no_interior);
+    $('#referencia_name').text(datos.referencia);
+  });
   estado_cuenta = firebase.database().ref().child('estado_cuenta').child(cuenta);
   estado_cuenta.once('value',function(snap){
     $("#cuenta-rows > tr").remove();
@@ -254,7 +264,8 @@ function imprimirCuenta(){
   $('label').hide()
   $('#slide-out').hide()
   $('#work-place').css('margin-left','-240px')
-  window.print()
+  $('#autocomplete-input').css('border','solid 1px #FFF')
+  //window.print()
 }
 
 var mediaQueryList = window.matchMedia('print');
@@ -268,6 +279,7 @@ mediaQueryList.addListener(function(mql) {
           $('label').show()
           $('#slide-out').show()
           $('#work-place').css('margin-left','0px')
+          $('#autocomplete-input').css('border','bottom 0.5px solid')
     }
 })
 
