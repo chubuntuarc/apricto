@@ -30,17 +30,20 @@ $("#destino").on('change', function() {
 
 function listaBusqueda(){
   owners.on('value',function(snap){
-    var datos = snap.val()
-    var data = {}
-    var myConvertedData = {}
+    var datos = snap.val();
+    var data = {};
+    var data2 = {};
+    var myConvertedData = {};
     for(var key in datos){
-      //data.push(datos[key].cliente)
-      data[key] = datos[key].cliente
-      //data.push( [key] : datos[key].cliente )
+      data[key] = datos[key].cliente;
+      data2[key] = datos[key].referencia;
     }
     $.each(data, function(index, value) {
       myConvertedData[value] = null;
-    })
+    });
+    $.each(data2, function(index, value) {
+      myConvertedData[value] = null;
+    });
     $('input.autocomplete').autocomplete({
         data: myConvertedData,
       limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
@@ -65,6 +68,7 @@ function cargarDatosCuenta(){
   cliente = firebase.database().ref().child('owners').child(cuenta);
   cliente.once('value',function(snap){
     var datos = snap.val();
+    $('#cliente_name').text(datos.cliente);
     $('#desarrollo_name').text(datos.desarrollo);
     $('#calle_name').text(datos.calle);
     $('#mz_lt').text(datos.mz + ' / ' + datos.lt + ' / ' + datos.no_interior);
