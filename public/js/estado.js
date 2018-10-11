@@ -49,6 +49,7 @@ function listaBusqueda(){
       limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
       onAutocomplete: function(val) {
         $.each(data, function(index, value) {
+          console.log(value)
           if(value == val){
             $('#id_cuenta').val(index)
             cargarDatosCuenta()
