@@ -55,9 +55,9 @@ function cargarDatosCuenta(){
           nuevaFila+='<tr>';
           nuevaFila+='<td>'+datos[key].fecha+'</td>';
           nuevaFila+='<td>'+datos[key].fecha_vencimiento+'</td>';
-          nuevaFila+='<td>'+datos[key].tipo+'</td>';
+          nuevaFila+='<td>'+datos[key].clasificacion+'</td>';
           nuevaFila+='<td>'+datos[key].concepto+'</td>';
-          if(datos[key].fecha_vencimiento < today && datos[key].status != 'Adeudo pendiente'){
+          if(datos[key].fecha_vencimiento > today || datos[key].status != 'Adeudo pendiente'){
             nuevaFila+='<td>$'+number_format(datos[key].cargo,2)+'</td>';
             nuevaFila+='<td>$'+number_format(datos[key].abono,2)+'</td>';
             nuevaFila+='<td>$'+number_format((datos[key].cargo - datos[key].abono),2)+'</td>';
