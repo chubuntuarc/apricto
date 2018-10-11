@@ -57,11 +57,13 @@ function cargarDatosCuenta(){
           nuevaFila+='<td>'+datos[key].fecha_vencimiento+'</td>';
           nuevaFila+='<td>'+datos[key].tipo+'</td>';
           nuevaFila+='<td>'+datos[key].concepto+'</td>';
-          nuevaFila+='<td>$'+number_format(datos[key].cargo,2)+'</td>';
-          nuevaFila+='<td>$'+number_format(datos[key].abono,2)+'</td>';
-          if(datos[key].fecha_vencimiento >= today){
+          if(datos[key].fecha_vencimiento < today && datos[key].status != 'Adeudo pendiente'){
+            nuevaFila+='<td>$'+number_format(datos[key].cargo,2)+'</td>';
+            nuevaFila+='<td>$'+number_format(datos[key].abono,2)+'</td>';
             nuevaFila+='<td>$'+number_format((datos[key].cargo - datos[key].abono),2)+'</td>';
           }else{
+            nuevaFila+='<td>$'+number_format((datos[key].cargo)*1.045,2)+'</td>';
+            nuevaFila+='<td>$'+number_format(datos[key].abono,2)+'</td>';
             nuevaFila+='<td>$'+number_format((datos[key].cargo - datos[key].abono)*1.045,2)+'</td>';
           }
           if(datos[key].status == 'Adeudo pendiente'){
@@ -176,11 +178,16 @@ function abonarAdeudo(key){
     elementoEditar = elementoAEditar
     $('#fecha_abono').text(datos.fecha)
     $('#fecha_vencimiento_abono').text(datos.fecha_vencimiento)
-    $('#monto_abono').text('$'+number_format(datos.cargo,2))
     var cargo = parseFloat(datos.cargo)
     var abon = parseFloat(datos.abono) || 0
     var dife = cargo - abon
-    $('#monto_abono2').text('$'+number_format(dife,2))
+    if(datos.fecha_vencimiento < today){
+      $('#monto_abono').text('$'+number_format((datos.cargo * 1.045),2))
+      $('#monto_abono2').text('$'+number_format((dife * 1.045),2))
+    }else{
+      $('#monto_abono').text('$'+number_format(datos.cargo,2))
+      $('#monto_abono2').text('$'+number_format(dife,2))
+    }
     $('#monto_abono_hide').val(datos.abono)
     $('#adeudo_hide').val(datos.cargo)
     $('#concepto_abono').text(datos.concepto)
