@@ -59,7 +59,11 @@ function cargarDatosCuenta(){
           nuevaFila+='<td>'+datos[key].concepto+'</td>';
           nuevaFila+='<td>$'+number_format(datos[key].cargo,2)+'</td>';
           nuevaFila+='<td>$'+number_format(datos[key].abono,2)+'</td>';
-          nuevaFila+='<td>$'+number_format((datos[key].cargo - datos[key].abono),2)+'</td>';
+          if(datos[key].fecha_vencimiento >= today){
+            nuevaFila+='<td>$'+number_format((datos[key].cargo - datos[key].abono),2)+'</td>';
+          }else{
+            nuevaFila+='<td>$'+number_format((datos[key].cargo - datos[key].abono)*1.045,2)+'</td>';
+          }
           if(datos[key].status == 'Adeudo pendiente'){
            nuevaFila+='<td><a class="red-text text-lighten-3" href="#!" onclick="movimientoEditar(\''+key+'\');">'+datos[key].status+'</a></td>' ;
             nuevaFila+='<td><a class="green-text text-lighten-3" href="#!" onclick="abonarAdeudo(\''+key+'\');"><i class="material-icons">attach_money</i></a></td>';
@@ -259,6 +263,20 @@ mediaQueryList.addListener(function(mql) {
           $('#work-place').css('margin-left','0px')
     }
 })
+
+//Fecha actual
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+if(dd<10) {
+    dd = '0'+dd
+} 
+if(mm<10) {
+    mm = '0'+mm
+} 
+today = dd + '/' + mm + '/' + yyyy;
+
 
 //Convertir a moneda
 function number_format(amount, decimals) {
